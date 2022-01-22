@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"></meta>
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+        <title>Temporary Title</title>
+        <style>
+
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans&display=swap");
+
+:root {
+    --navbar-c: #333;
+    --navbar-height: max(5vh,4rem);
+    --highlight-c: #0f0;
+    --navbar-width: 8em;
+}
+
+p {
+    font-size: 16pt;
+    font-family: "Open Sans", sans-serif;
+}
+h1 {
+    font-size: 30pt;
+    font-family: "Open Sans", sans-serif;
+}
+
+a:link, a:visited, a:hover, a:active {
+    color: #008b00;
+    text-decoration: underline;
+}
+
+.wide {
+    display: none;
+}
+
+
+.hamburger-navbar-block {
+    transition: filter .5s, height .3s;
+    position: absolute;
+    height: 0px;
+    width: 100%;
+    background-color: var(--navbar-c);
+    z-index: 1;
+}
+
+.hamburger-navbar-element {
+    white-space: nowrap;
+    position: absolute;
+    transition: font-size .1s;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 0pt;
+    font-family: "Open Sans", sans-serif;
+}
+
+
+.hamburger-navbar-block:hover {
+    transition: filter .5s, height .1s;
+    filter: brightness(85%);
+}
+
+.navbar-hamburger {
+    transition: background-color .5s;
+    background-color: #00000000;
+    position: absolute;
+    top: 0;
+    height: var(--navbar-height);
+    width: var(--navbar-height);
+}
+
+.navbar-hamburger:hover {
+    transition: background-color .5s;
+    background-color: #00000055;
+}
+
+.navbar-hamburger-icon {
+    position: absolute;
+    width: var(--navbar-height);
+    height: var(--navbar-height);
+}
+
+#navbar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--navbar-height);
+    background-color: var(--navbar-c);
+    color: #fff;
+}
+.navbar-element {
+    white-space: nowrap;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 24pt;
+    font-family: "Open Sans", sans-serif;
+}
+
+.navbar-block {
+    display: none
+}
+
+@media (min-width: 60em) {
+    .tall {
+        display: none;
+    }
+
+    .wide {
+        display: block;
+    }
+
+    .hamburger-navbar-block {
+        display: none;
+    }
+
+    .navbar-block {
+        display: block;
+    }
+
+    .navbar-hamburger {
+        display: none;
+    }
+
+    .navbar-block {
+        transition: background-color .5s;
+        position: absolute;
+        height: 100%;
+        width: var(--navbar-width);
+        background-color: #00000000;
+    }
+
+    .navbar-block:hover {
+        transition: background-color .5s;
+        background-color: #00000055;
+    }
+}
+
+
+
+
+.content {
+    position: absolute;
+    font-family: "Roboto Condensed", sans-serif;
+    top: var(--navbar-height);
+    margin-top: .1em;
+    margin-bottom: .1em;
+    margin-left:2.5em;
+    margin-right:2.5em;
+    font-size: 25pt;
+}
+
+#transition {
+    position: absolute;
+    top: 0;
+    left: 50vw;
+    right: 50vw;
+    bottom: 0;
+    background-color: var(--navbar-c);
+    z-index: 2;
+}
+        </style>
+
+        <script>
+var contentClasses = ".home, .faq";
+function hideContent() {
+    document.querySelectorAll(contentClasses).forEach(function(e) {
+        e.style.display = "none";
+    });
+}
+
+function showContent(name) {
+    document.querySelectorAll(name).forEach(function(e) {
+        e.style.display = "block";
+    });
+}
+function hamburger() {
+    if (document.querySelectorAll(".hamburger-navbar-block")[0].style.height != "var(--navbar-height)") {
+        document.querySelectorAll(".hamburger-navbar-block").forEach(function(e) {
+            e.style.height = "var(--navbar-height)";
+        });
+        document.querySelectorAll(".hamburger-navbar-element").forEach(function(e) {
+            e.style.fontSize = "24pt";
+        });
+    } else {
+        document.querySelectorAll(".hamburger-navbar-block").forEach(function(e) {
+            e.style.height = "0";
+        });
+        document.querySelectorAll(".hamburger-navbar-element").forEach(function(e) {
+            e.style.fontSize = "0pt";
+        });
+    }
+}
+
+var transitionTimeout = null;
+
+function switchClass(name, burger=false) {
+    clearTimeout(transitionTimeout);
+    let transition = document.getElementById("transition");
+    transition.style.transition = ".5s";
+    transition.style.left = "0";
+    transition.style.right = "0";
+    if (burger) {
+        hamburger();
+    }
+    setTimeout(() => {
+        hideContent();
+        showContent(name);
+        transition.style.left = "50vw";
+        transition.style.right = "50vw";
+    }, 600);
+    transitionTimeout = setTimeout(() => {
+        transition.style.transition = "0s";
+    }, 1100);
+}
+
+
+function init() {
+    hideContent();
+    showContent(".home");
+    document.getElementById("javascript-check").style.display = "block";
+    document.getElementById("javascript-check-message").style.display = "none";
+}
+
+        </script>
+
+
+    </head>
+    <body onload="init()">
+        <p id="javascript-check-message">Please enable JavaScript or switch to a browser that supports it.</p>
+        <div style="display: none !important" id="javascript-check">
+            <div id="navbar">
+                <div onclick="hamburger()" class=navbar-hamburger>
+                    <svg viewbox="0 0 100 100" class="navbar-hamburger-icon">
+                        <rect x="10" y="15" width="80" height="20" rx="10" ry="10" style="fill:white;"/>
+                        <rect x="10" y="40" width="80" height="20" rx="10" ry="10" style="fill:white;"/>
+                        <rect x="10" y="65" width="80" height="20" rx="10" ry="10" style="fill:white;"/>
+                    </svg>
+                </div>
+                <a style="color:#fff" href="javascript:switchClass('.home')"><div class="navbar-block">
+                    <div class="navbar-element">Home</div>
+                </div></a>
+                <a style="color:#fff" href="javascript:switchClass('.what-is')"><div style="width:calc(2.5 * var(--navbar-width));left:calc(1 * var(--navbar-width))" class="navbar-block">
+                    <div class="navbar-element">What is Covid-19?</div>
+                </div></a>
+                <a style="color:#fff" href="javascript:switchClass('.faq')"><div style="right:0" class="navbar-block">
+                    <div class="navbar-element">FAQ</div>
+                </div></a>
+
+                <!-- hamburger navs -->
+                <div style="top:var(--navbar-height)" onclick="switchClass('.home', true)" class="hamburger-navbar-block">
+                    <div class="hamburger-navbar-element">Home</div>
+                </div>
+                <div style="top:calc(2 * var(--navbar-height))" onclick="switchClass('.what-is', true)" class="hamburger-navbar-block">
+                    <div class="hamburger-navbar-element">What is Covid-19?</div>
+                </div>
+                <div style="top:calc(3 * var(--navbar-height))" onclick="switchClass('.faq', true)" class="hamburger-navbar-block">
+                    <div class="hamburger-navbar-element">FAQ</div>
+                </div>
+            </div>
+
+            <div id="transition"></div>
+
+            <div class="content home">
+                <h1>This is the temporary home page. To get started, go to <a href="javascript: switchClass('.faq')">the FAQ page</a>.</h1>
+                <h1>If you want a detailed explaination of what Covid-19 is, go to <a href="javascript: switchClass('.what-is')">What is Covid-19?</a></h1>
+            </div>
+
+            <div class="content what-is">
+            </div>
+            
+            <div class="content faq">
+                <h1>What is Coronavirus?</h1>
+                <p>Coronavirus, also known as Covid-19, is a respiratory illness that originated from Wuhan, China.</p>
+                <h1>What are some symptoms?</h1>
+                <p>Some symptoms include: Fever or chills, coughing, shortness of breath or difficulty breathing, fatigue, muscle or body aches, headaches, loss of taste or smell, a sore throat, congestion or a runny nose, nausea or vomiting, and diarrhea.</p>
+                <h1>If I am close to someone who might be experiencing some symptoms, what should I do?</h1>
+                <p>If you are ever in this situation, get yourself tested for Covid-19. Also, make sure the other person gets tested too if he/she hasn't already.</p>
+            </div>
+        </div>
+    </body>
+</html>
